@@ -1,0 +1,29 @@
+name: Apply Linkedin jobs
+on:
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        required: false
+        description: start does a dry-run
+        type: choice
+        options:
+          - apply
+          - start
+        default: "start"
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout-code
+        uses: actions/checkout@v4
+
+      - name: Install Node Dependencies
+        run: npm i
+        shell: bash
+
+      - name: Copy Sample Configuration Files
+        run: cp sample_config.ts config.ts
+
+      - name: Apply
+        run: npm start ${{ inputs.dry-run }}
